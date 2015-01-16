@@ -1,0 +1,88 @@
+{% load staticfiles project_tags %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="{{ project.meta_description }}">
+    <meta name="author" content="{{ project.meta_author }}">
+    <meta name="keywords" content="{{ project.meta_keywords }}">
+
+    <title>{{ project.title }}</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,100' rel='stylesheet' type='text/css'>
+    <link type="text/css" href="http://cdn.bootcss.com/animate.css/3.1.0/animate.min.css">
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.4/waypoints.min.js"></script>
+
+    <script src="{% static  'js/isotope.min.js' %}"></script>
+
+    <link type="text/css" href={% static 'css/style.css' %} rel="stylesheet">
+    <link type="text/css" href={% static 'css/styles.css' %} rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <nav id="navbar" class="navbar navbar-fixed-top">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+          {% for s in project.sectionorder_set.all %}
+            <li>
+              <a href="#box-{{s.order}}" class="menu-item box-{{s.order}}">
+                <i class="fa {{s.section.icon}}"></i>
+                <span class="nav-header">{{s.section.title}}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+
+    {% for section in project.sectionorder_set.all %}
+      {% build_section section %}
+    {% endfor %}
+
+    <script>
+      $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+          if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+            if (target.length) {
+              $('html,body').animate({
+                scrollTop: target.offset().top
+              }, 500);
+              return false;
+            }
+          }
+        });
+      });
+
+      $('section.main-section').waypoint(function(direction) {
+        if (direction=='up') {
+          $('.menu-item').removeClass("active");
+          $('.'+$(this).attr('id')).addClass("active").focus();
+          $("#navbar").css("background-color",$(this).css("background-color"));
+        }
+      },{offset:'-90%'});
+      $('section.main-section').waypoint(function(direction) {
+        if (direction=='down') {
+          $('.menu-item').removeClass("active");
+          $('.'+$(this).attr('id')).addClass("active").focus();
+          $("#navbar").css("background-color",$(this).css("background-color"));
+        }
+      },{offset:'7%'});
+    </script>
+  </body>
+</html>

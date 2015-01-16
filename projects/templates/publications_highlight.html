@@ -1,0 +1,33 @@
+{% load thumbnail project_tags %}
+
+<section id="box-{{order}}" class="container-fluid wrapper style2 main-section">
+  <div class="container">
+    <div class="row-flex" style="width:100%;">
+      <div class="row" style="width:100%;">
+
+        <header class="major">
+          <h2>{{title}}</h2>
+        </header>
+
+        <div class="col-md-12" style="width:100%;text-align:left;">
+          <div class="row">
+            {% get_highlights objects 3 as objects %}
+            {% for o in objects %}
+            <section class="col-md-4" style="margin-bottom:30px;">
+              <span class="image fit">
+                <img class="img-responsive" src="{% thumbnail o.image "450x250" crop="center" %}">
+              </span>
+              <h3 style="text-transform: none;">{{ o.title }}</h3>
+              <h6>{{ o.authors }}</h6>
+              <p>{{ o.abstract|truncatechars:300 }}</p>
+              <a target="_blank" href="http://dx.doi.org/{{o.doi}}" class="button alt">Journal</a>
+            </section>
+            {% endfor %}
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>

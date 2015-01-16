@@ -56,15 +56,15 @@ nav {
   background-color: #fff;
 }
 .navbar-nav li a {
- line-height: 30px;
+  line-height: 30px;
 }
 
 .navbar-nav li {
- padding-left: 0;
+  padding-left: 0;
 }
 
 .menu-item {
- color: #58A659;
+  color: #5E7E99;
 }
 
 nav {
@@ -76,20 +76,11 @@ nav {
   font-size: 18px;
   text-transform: uppercase;
 }
-.navbar-nav li a:hover {
-  color: #fff;
-  background-color: #58A659;
-}
 
-.navbar-nav li a.active:focus {
+.navbar-nav li a.active:focus, .navbar-nav li a.active, .navbar-nav li a:hover {
   color: #fff;
-  background-color: #58A659;
+  background-color: #5E7E99;
   outline: none;
-}
-
-.navbar-nav li a.active {
-  color: #fff;
-  background-color: #58A659;
 }
 
 .panel {

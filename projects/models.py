@@ -67,10 +67,11 @@ class CTemplate(models.Model):
 
 class SectionOrder(models.Model):
 
-    order = models.PositiveIntegerField()
-    section = models.ForeignKey(Section)
-    project = models.ForeignKey(Project)
+    order = models.PositiveIntegerField(_("Order"))
+    section = models.ForeignKey(Section, verbose_name=_("Section"))
+    project = models.ForeignKey(Project, verbose_name=_("Project"))
     template = models.ForeignKey(CTemplate, verbose_name=_("Template"))
+    on_menu = models.BooleanField(_("On menu"), default="True", help_text=_("Create a menu item in the navigation bar for this section"))
     # content = models.TextField(_("Content"), null=True, blank=True, help_text=_("If you selected a page content, leave this blank. This field is for static contents only"))
 
     class Meta:

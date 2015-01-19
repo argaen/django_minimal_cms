@@ -38,8 +38,19 @@ class SectionAdmin(BaseAdmin):
         }),
     )
 
+class ContactInline(admin.StackedInline):
+    model = models.Contact
+    extra = 1
+
+class AffiliationInline(admin.StackedInline):
+    model = models.Affiliation
+    extra = 1
+
+class ResearcherAdmin(admin.ModelAdmin):
+    inlines = (ContactInline, AffiliationInline,)
+
 admin.site.register(models.Project, ProjectAdmin)
 admin.site.register(models.Section, SectionAdmin)
-admin.site.register(models.Researcher)
+admin.site.register(models.Researcher, ResearcherAdmin)
 admin.site.register(models.Article)
 admin.site.register(models.CTemplate, TemplateAdmin)

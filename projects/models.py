@@ -72,7 +72,6 @@ class SectionOrder(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
     template = models.ForeignKey(CTemplate, verbose_name=_("Template"))
     on_menu = models.BooleanField(_("On menu"), default="True", help_text=_("Create a menu item in the navigation bar for this section"))
-    # content = models.TextField(_("Content"), null=True, blank=True, help_text=_("If you selected a page content, leave this blank. This field is for static contents only"))
 
     class Meta:
         verbose_name = _("Section")
@@ -86,12 +85,34 @@ class Researcher(GenericObject):
     last_name = models.CharField(_("Last name"), max_length=20)
     image = FilerImageField(null=True, blank=True, on_delete=models.SET_NULL)
 
-    institution = models.CharField(_("Institution"), max_length=100)
     twitter = models.CharField(_("Twitter"), max_length=30, null=True, blank=True)
     email = models.EmailField(_("Email"), null=True, blank=True)
 
     def __unicode__(self):
         return self.name
+
+
+class Contact(models.Model):
+    researcher = models.ForeignKey(Researcher, verbose_name=_("Researcher"))
+    department = models.CharField(_("Department"), max_length=200, blank=True, null=True)
+    address = models.CharField(_("Address"), max_length=200)
+    city = models.CharField(_("City"), max_length=100)
+    state = models.CharField(_("State"), max_length=100)
+    zip_code = models.CharField(_("Zip code"), max_length=100)
+    country = models.CharField(_("Country"), max_length=100)
+    phone = models.CharField(_("Phone"), max_length=100, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.address
+
+
+class Affiliation(models.Model):
+    researcher = models.ForeignKey(Researcher, verbose_name=_("Researcher"))
+    category = models.CharField(_("Category"), max_length=100)
+    institution = models.CharField(_("Institution"), max_length=200)
+
+    def __unicode__(self):
+        return self.institution
 
 
 class Article(GenericObject):

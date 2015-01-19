@@ -1,61 +1,34 @@
-# Django Research Web
+# Django Minimal CMS
 
-This package allows you to create single page websites with your research data (researchers, publications, etc.) and manage it. You can have multiple websites while keeping only a single database.
+This package allows you to manage various projects on a different Django site each. Those sites are single web pages. Each project has their sections with an assigned template to render and display the content (static or not).
 
-## How it works
+The content type to be rendered can be selected in the section administration page (actually only 1 is allowed). When selecting a content type, you are turning the section into a dynamic html page so, to use the dynamic content, in the template you can use the 'objects' variable which is a queryset of the selected content type.
 
-To create a new Site you must create a new Project and assign it a Django site (the domain you will use for this site). When creating the new Project, you can assign sections to it naming them, setting their title, their content and the template you want to show.
-
-### Adding new sections
-
-Sections can be shared among your projects, you set the different parameters when assigning it to a Project. By itself, a section will only need a Title and a Page Content (explained later). When assigning the Section to your Project, you will be asked for:
-
-    - order: Specifies the order of the section in your single page.
-    - section: Which section you want to assign.
-    - template: Which template (if any) you want to use. If you don't specify any, 'projects/templates/static.html' will be used.
-    - content: If the section doesn't have a 'Page Content' associated, it means it is a static section, place here your content in markdown syntax and it will be displayed using static.html or the specified template.
+You can use any tag you want in the templates content, just remember to use the {% load %} tag whenever is needed.
 
 
-### Adding new templates
+## Getting started
 
-To add a new template so you can use it with a section, you just need to create it and place it under 'your_app/templates' directory. This way, Django will find it automatically.
-
-The variables that can be used in the template are:
-    - order: Order of the section
-    - title: Title of the section
-    - objects: If the section has the 'page content' set, it is the queryset of the objects (resulting of doing page_content.objects.all(project=current_project, published=True)). If 'page content' is not set, it contains the static content.
+Create a new Django project with `django-admin.py startproject <yourproject>`. Install the package with `pip install django_zonecms` and add it to INSTALLED_APPS in your settings.py file with 'zone_cms' name. Do a `python manage.py syncdb` to create the database and migrate the package models into it. Now you can start the development server to create a new project with its sections and templates `python manage.py runserver`.
 
 
-#### Nesting templatetags
+## Creating a new project
 
-To add new templates, templatetags are used so the content returned from the view is rendered together with the template. The templatetag used for this is in 'projects/templatetags/project_tags.py' and is called 'build_section'.
-
-Let's that rather than displaying all the objects belonging to a model you defined, you just want to display only the first 2 items ordered by an attribute called 'my_attribute'. You can do this defining your custom templatetag which will do the logic. Our template can be:
+Add a new project using the admin interface and fullfill the required fields. An important one is the 'base_template' where you must write your root html template. You can see an example running the test server under examples/ and accessing the admin interface. In the example, one of the most important parts is:
 
 '''
-{% get_highlights objects 2 as objects %}
-{% for o in objects %}
-    {{ o.my_attribute }}
+{% for section in project.sectionorder_set.all %}
+    {% build_section section %}
 {% endfor %}
 '''
 
-Now we have to create our 'your_app/templatetags/tags.py' file containing the 'get_highlights' templatetag which will perform the operations we want:
+To be able to execute this lines, you must load the associated templatetag at the top of the template with `{% load project_tags %}`. This lines are the ones that pick all the sections of the project and build them obtaining the dynamic or static referred content and rendering the specific template of each section with it.
 
-'''
-@register.assignment_tag
-def get_highlights(objects, n):
-    return objects.order_by('my_attribute')[:n]
-'''
-
-### Adding new models
-
-The 'page content' attribute when creating a new section refers to the dynamic data you want to display. If your section displays static data, you won't need this but in case you want to display dynamic data i.e. People of your team (which can be added, modified and deleted from the Django admin interface) you will need to set this attribute.
-
-Your new added models, need to inherit from dynamic_cms.projects.GenericObject. This is because you need to mark your models as a class that can be used by the new sections.
+Next step is to add new sections and assign them their own templates. The content type you can assign to a section is any class that inherits from the 'zone_cms.projects.models.GenericObject' class so, if you want to write your own to display them in your sections, don't forget to use 'GenericObject' as a parent class. You can also write your own templatetags so you can use them while writing your templates in the admin interface.
 
 
-## GenericObject Models
+## Creating custom models
 
-Researcher
+To create new models nothing changes from the normal way of working with Django, the only thing you have to do is to make your models (the ones you want to be able to select for your sections) inherit from 'GenericObject' class.
 
-Article
+For static files, templatetags and rest, you can work the normal way you do with Django.

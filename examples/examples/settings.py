@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^7$^pscg&am6w1g(y3ydu5kfy6+f4vqd!l_hrr!_l(yg#h0_h6'
+SECRET_KEY = '-#i7p!+#_=sg_tbl6qm*p2a!^^i^4f#92+sqyhrvtub(3-q^@d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -30,13 +30,28 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # 'zone_admin',
+
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # 'widget_tweaks',
+    'polymorphic',
+    'django.contrib.contenttypes',
+
+    'filer',
+    'mptt',
+    'easy_thumbnails',
+    'djzone_cms',
+
+    'common',
 )
+
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,4 +95,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+FILER_PAGINATE_BY = 150
+
+ZONEPROJECT_TITLE = 'Title'
+ZONEPROJECT_META_KEYWORDS = 'complex networks, complex, networks, research'
+ZONEPROJECT_DESCRIPTION = 'bla bla bla bla bla bla bla bla bla'
+ZONEPROJECT_GOOGLE_ID = '12312456'

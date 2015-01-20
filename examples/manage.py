@@ -2,6 +2,8 @@
 import os
 import sys
 
+sys.path[0:0] = [os.path.abspath('..')]
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "examples.settings")
 

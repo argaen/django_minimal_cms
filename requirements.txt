@@ -1,5 +1,0 @@
-Django
-django-filer
-django-mptt
-easy_thumbnails
-django-polymorphic

@@ -11,6 +11,27 @@ You can use any tag you want in the templates content, just remember to use the 
 
 Create a new Django project with `django-admin.py startproject <yourproject>`. Install the package with `pip install django_zonecms` and add it to INSTALLED_APPS in your settings.py file with 'djzone_cms' name. Do a `python manage.py syncdb` to create the database and migrate the package models into it. Now you can start the development server to create a new project with its sections and templates `python manage.py runserver`.
 
+You also need to add some other applications, your INSTALLED_APPS should end like that:
+
+```python
+INSTALLED_APPS = (
+    .
+    .
+    .
+    
+    'django.contrib.sites',
+
+    'polymorphic',
+    'django.contrib.contenttypes',
+
+    'filer',
+    'mptt',
+    'easy_thumbnails',
+    'djzone_cms'
+)
+```
+
+Note that we added the 'django.contrib.sites' and moved 'django.contrib.contenttypes' under the 'polymorphic' app. You should also add the `SITE_ID=1` line into your settings.py file.
 
 ## Creating a new project
 

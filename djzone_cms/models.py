@@ -11,11 +11,11 @@ class Project(models.Model):
     title = models.CharField(_("Title"), max_length=200)
     subtitle = models.CharField(_("Subtitle"), max_length=200, blank=True)
 
-    meta_keywords = models.CharField(_("Meta keywords"), max_length=500, help_text=_("Comma separated list"))
-    meta_author = models.CharField(_("Meta author"), max_length=100)
-    meta_description = models.CharField(_("Meta description"), max_length=155)
+    meta_keywords = models.CharField(_("Meta keywords"), max_length=500, help_text=_("Comma separated list"), blank=True, null=True)
+    meta_author = models.CharField(_("Meta author"), max_length=100, blank=True, null=True)
+    meta_description = models.CharField(_("Meta description"), max_length=155, blank=True, null=True)
 
-    google_analytics = models.CharField(_("Google Analytics"), max_length=50)
+    google_analytics = models.CharField(_("Google Analytics"), max_length=50, blank=True, null=True)
 
     site = models.OneToOneField(Site, verbose_name=_("Site"), help_text=_("Domain where the project belongs"))
     base_template = models.TextField()
@@ -33,7 +33,7 @@ class GenericObject(models.Model):
 
 
 def get_generic_objects():
-    values = [ o.model for o in ContentType.objects.all() if GenericObject in o.model_class().__bases__ ]
+    values = [ o.model for o in ContentType.objects.all() if o.model_class() is not None and GenericObject in o.model_class().__bases__ ]
     return reduce(lambda q,value: q|models.Q(model=value), values, models.Q())
 
 

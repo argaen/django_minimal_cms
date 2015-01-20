@@ -35,7 +35,7 @@ Note that we added the 'django.contrib.sites' and moved 'django.contrib.contentt
 
 ## Creating a new project
 
-Add a new project using the admin interface and fullfill the required fields. An important one is the 'base_template' where you must write your root html template. You can see an example running the test server under examples/ and accessing the admin interface. In the example, one of the most important parts is:
+Add a new project using the admin interface and fullfill the required fields. An important one is the 'base_template' where you must write your root html template. You can see an example running the test server under 'examples/' and accessing the admin interface. In the example, one of the most important parts is:
 
 ```
 {% for section in project.sectionorder_set.all %}
@@ -62,3 +62,9 @@ To display the single page, you will need to add this line in your main urls.py 
 ```python
     url(r'^$', 'djzone_cms.views.home', name='home'),
 ```
+
+### Available variables in the templates
+
+You can access the current project object from any template you define in your sections or in the base template. Thus, you can access the project title by doing `{{project.title}}` or any other attribute.
+
+You can also access all the sections with their assigned template by doing {{ project.sectionorder_set.all }}. For each object in this queryset, you can obtain the following attributes: order, section, template, on_menu.

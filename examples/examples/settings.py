@@ -102,8 +102,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 FILER_PAGINATE_BY = 150
-
-ZONEPROJECT_TITLE = 'Title'
-ZONEPROJECT_META_KEYWORDS = 'complex networks, complex, networks, research'
-ZONEPROJECT_DESCRIPTION = 'bla bla bla bla bla bla bla bla bla'
-ZONEPROJECT_GOOGLE_ID = '12312456'
